@@ -284,6 +284,7 @@ UINT         _gx_utility_rectangle_combine(GX_RECTANGLE *first_rectangle, GX_REC
 GX_BOOL      _gx_utility_rectangle_compare(GX_RECTANGLE *first_rectangle, GX_RECTANGLE *second_rectangle);
 UINT         _gx_utility_rectangle_define(GX_RECTANGLE *rectangle, GX_VALUE left, GX_VALUE top, GX_VALUE right, GX_VALUE bottom);
 GX_BOOL      _gx_utility_rectangle_inside_detect(GX_RECTANGLE *outer, GX_RECTANGLE *inner);
+GX_BOOL      _gx_utility_rectangle_is_valid(GX_RECTANGLE *rectangle);
 GX_BOOL      _gx_utility_rectangle_overlap_detect(GX_RECTANGLE *first_rectangle, GX_RECTANGLE *second_rectangle, GX_RECTANGLE *return_overlap_area);
 GX_BOOL      _gx_utility_rectangle_point_detect(GX_RECTANGLE *rectangle, GX_POINT point);
 UINT         _gx_utility_rectangle_resize(GX_RECTANGLE *rectangle, GX_VALUE adjust);
