@@ -98,24 +98,8 @@ GX_RECTANGLE oversize = over -> gx_widget_size;
     {
         split.gx_rectangle_left = original -> gx_rectangle_left;
         split.gx_rectangle_right = (GX_VALUE)(oversize.gx_rectangle_left - 1);
-
-        if (original -> gx_rectangle_top > oversize.gx_rectangle_top)
-        {
-            split.gx_rectangle_top = original -> gx_rectangle_top;
-        }
-        else
-        {
-            split.gx_rectangle_top = oversize.gx_rectangle_top;
-        }
-
-        if (original -> gx_rectangle_bottom < oversize.gx_rectangle_bottom)
-        {
-            split.gx_rectangle_bottom = original -> gx_rectangle_bottom;
-        }
-        else
-        {
-            split.gx_rectangle_bottom = oversize.gx_rectangle_bottom;
-        }
+        split.gx_rectangle_top = GX_MAX(original -> gx_rectangle_top, oversize.gx_rectangle_top);
+        split.gx_rectangle_bottom = GX_MIN(original -> gx_rectangle_bottom, oversize.gx_rectangle_bottom);
 
         /* try to add this piece to the 'under' window's viewports */
         _gx_system_root_view_add(root, &split);
@@ -126,24 +110,9 @@ GX_RECTANGLE oversize = over -> gx_widget_size;
     {
         split.gx_rectangle_left = (GX_VALUE)(oversize.gx_rectangle_right + 1);
         split.gx_rectangle_right = original -> gx_rectangle_right;
+        split.gx_rectangle_top = GX_MAX(original -> gx_rectangle_top, oversize.gx_rectangle_top);
+        split.gx_rectangle_bottom = GX_MIN(original -> gx_rectangle_bottom, oversize.gx_rectangle_bottom);
 
-        if (original -> gx_rectangle_top > oversize.gx_rectangle_top)
-        {
-            split.gx_rectangle_top = original -> gx_rectangle_top;
-        }
-        else
-        {
-            split.gx_rectangle_top = oversize.gx_rectangle_top;
-        }
-
-        if (original -> gx_rectangle_bottom < oversize.gx_rectangle_bottom)
-        {
-            split.gx_rectangle_bottom = original -> gx_rectangle_bottom;
-        }
-        else
-        {
-            split.gx_rectangle_bottom = oversize.gx_rectangle_bottom;
-        }
         /* try to add this piece to the 'under' window's viewports */
         _gx_system_root_view_add(root, &split);
     }
