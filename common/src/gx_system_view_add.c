@@ -78,14 +78,7 @@ GX_VIEW *newview;
     {
         newview -> gx_view_rectangle = *view;
 
-        if (win -> gx_window_views)
-        {
-            newview -> gx_view_next = win -> gx_window_views;
-        }
-        else
-        {
-            newview -> gx_view_next = GX_NULL;
-        }
+        newview -> gx_view_next = win -> gx_window_views;
         win -> gx_window_views = newview;
     }
 }
