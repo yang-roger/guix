@@ -28,6 +28,19 @@
 #include "gx_utility.h"
 
 
+GX_BOOL _gx_utility_rectangle_is_valid(GX_RECTANGLE *rectangle)
+{
+    if (rectangle -> gx_rectangle_left <= rectangle -> gx_rectangle_right &&
+        rectangle -> gx_rectangle_top <= rectangle -> gx_rectangle_bottom)
+    {
+        return GX_TRUE;
+    }
+    else
+    {
+        return GX_FALSE;
+    }
+}
+
 /**************************************************************************/
 /*                                                                        */
 /*  FUNCTION                                               RELEASE        */
@@ -71,42 +84,16 @@ GX_BOOL  _gx_utility_rectangle_overlap_detect(GX_RECTANGLE *first_rectangle, GX_
 GX_RECTANGLE test;
 GX_BOOL      overlap = GX_FALSE;
 
-    if (second_rectangle -> gx_rectangle_left < first_rectangle -> gx_rectangle_left)
-    {
-        test.gx_rectangle_left = first_rectangle -> gx_rectangle_left;
-    }
-    else
-    {
-        test.gx_rectangle_left = second_rectangle -> gx_rectangle_left;
-    }
+    test.gx_rectangle_left = GX_MAX(first_rectangle -> gx_rectangle_left,
+                                    second_rectangle -> gx_rectangle_left);
+    test.gx_rectangle_top = GX_MAX(first_rectangle -> gx_rectangle_top,
+                                   second_rectangle -> gx_rectangle_top);
+    test.gx_rectangle_right = GX_MIN(first_rectangle -> gx_rectangle_right,
+                                     second_rectangle -> gx_rectangle_right);
+    test.gx_rectangle_bottom = GX_MIN(first_rectangle -> gx_rectangle_bottom,
+                                      second_rectangle -> gx_rectangle_bottom);
 
-    if (second_rectangle -> gx_rectangle_top < first_rectangle -> gx_rectangle_top)
-    {
-        test.gx_rectangle_top = first_rectangle -> gx_rectangle_top;
-    }
-    else
-    {
-        test.gx_rectangle_top = second_rectangle -> gx_rectangle_top;
-    }
-
-    if (second_rectangle -> gx_rectangle_right > first_rectangle -> gx_rectangle_right)
-    {
-        test.gx_rectangle_right = first_rectangle -> gx_rectangle_right;
-    }
-    else
-    {
-        test.gx_rectangle_right = second_rectangle -> gx_rectangle_right;
-    }
-    if (second_rectangle -> gx_rectangle_bottom > first_rectangle -> gx_rectangle_bottom)
-    {
-        test.gx_rectangle_bottom = first_rectangle -> gx_rectangle_bottom;
-    }
-    else
-    {
-        test.gx_rectangle_bottom = second_rectangle -> gx_rectangle_bottom;
-    }
-    if (test.gx_rectangle_left <= test.gx_rectangle_right &&
-        test.gx_rectangle_top <= test.gx_rectangle_bottom)
+    if (_gx_utility_rectangle_is_valid(&test))
     {
         overlap = GX_TRUE;
     }
