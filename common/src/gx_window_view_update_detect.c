@@ -85,20 +85,13 @@ GX_WIDGET      *parent;
 
         if (parent)
         {
-            /* is my parent a GX_ROOT_WINDOW type? */
-            if (parent -> gx_widget_type == GX_TYPE_ROOT_WINDOW)
-            {
-                root = (GX_WINDOW_ROOT *)parent;
-                root -> gx_window_root_views_changed = GX_TRUE;
-            }
+            window = (GX_WINDOW *)parent;
         }
-        else
+
+        if (window -> gx_widget_type == GX_TYPE_ROOT_WINDOW)
         {
-            if (window -> gx_widget_type == GX_TYPE_ROOT_WINDOW)
-            {
-                root = (GX_WINDOW_ROOT *)window;
-                root -> gx_window_root_views_changed = GX_TRUE;
-            }
+            root = (GX_WINDOW_ROOT *)window;
+            root -> gx_window_root_views_changed = GX_TRUE;
         }
     }
 }
