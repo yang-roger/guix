@@ -26,7 +26,7 @@
 
 #include "gx_api.h"
 #include "gx_system.h"
-#include "gx_utility.h"
+#include "gx_window.h"
 
 
 /**************************************************************************/
@@ -67,11 +67,10 @@ VOID _gx_system_all_views_free(GX_WINDOW_ROOT *root)
 {
 #ifndef GX_DISABLE_ERROR_CHECKING
 int viewcount;
+GX_VIEW   *test;
 #endif
 
-GX_VIEW   *test;
 GX_WIDGET *child;
-GX_WINDOW *win;
 
     /* pick up pointer to first child window */
     child = root -> gx_widget_first_child;
@@ -81,30 +80,13 @@ GX_WINDOW *win;
     {
         if (child -> gx_widget_type >= GX_TYPE_WINDOW)
         {
-            win = (GX_WINDOW *)child;
-            test = win -> gx_window_views;
-
-            /* does this window have any views? */
-
-            if (test)
-            {
-                _gx_system_views_free(test);
-                win -> gx_window_views = GX_NULL;
-            }
+            _gx_window_view_free((GX_WINDOW *)child);
         }
         child = (child -> gx_widget_next);
     }
 
-
     /* lastly, free the root window's views */
-
-    test = root -> gx_window_views;
-
-    if (test)
-    {
-        _gx_system_views_free(test);
-        root -> gx_window_views = GX_NULL;
-    }
+    _gx_window_view_free((GX_WINDOW *)root);
 
 #ifndef GX_DISABLE_ERROR_CHECKING
     test = _gx_system_free_views;

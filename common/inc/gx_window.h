@@ -110,6 +110,7 @@ UINT _gx_window_root_event_process(GX_WINDOW_ROOT *root, GX_EVENT *event_ptr);
 UINT _gx_window_scroll(GX_WINDOW *window, GX_VALUE x_scroll, GX_VALUE y_scroll);
 UINT _gx_window_scroll_info_get(GX_WINDOW *window, ULONG type, GX_SCROLL_INFO *return_scroll_info);
 UINT _gx_window_scrollbar_find(GX_WINDOW *window, USHORT type, GX_SCROLLBAR **return_scrollbar);
+VOID _gx_window_view_free(GX_WINDOW *win);
 VOID _gx_window_view_update_detect(GX_WINDOW *win);
 UINT _gx_window_wallpaper_get(GX_WINDOW *window, GX_RESOURCE_ID *return_wallpaper_id);
 UINT _gx_window_wallpaper_set(GX_WINDOW *window, GX_RESOURCE_ID wallpaper_id, GX_BOOL tile);

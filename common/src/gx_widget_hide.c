@@ -113,12 +113,8 @@ GX_WIDGET *next;
         if (widget -> gx_widget_type >= GX_TYPE_WINDOW)
         {
             win = (GX_WINDOW *)widget;
-            if (win -> gx_window_views)
-            {
-                _gx_system_views_free(win -> gx_window_views);
-                win -> gx_window_views = GX_NULL;
-            }
-            _gx_window_view_update_detect((GX_WINDOW *)widget);
+            _gx_window_view_free(win);
+            _gx_window_view_update_detect(win);
         }
 
     }
