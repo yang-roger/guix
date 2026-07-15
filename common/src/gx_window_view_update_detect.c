@@ -25,9 +25,17 @@
 /* Include necessary system files.  */
 
 #include "gx_api.h"
-#include "gx_widget.h"
+#include "gx_system.h"
 #include "gx_window.h"
 
+VOID _gx_window_view_free(GX_WINDOW *win)
+{
+    if (win -> gx_window_views)
+    {
+        _gx_system_views_free(win -> gx_window_views);
+        win -> gx_window_views = GX_NULL;
+    }
+}
 
 /**************************************************************************/
 /*                                                                        */
