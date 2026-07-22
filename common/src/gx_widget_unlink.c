@@ -91,12 +91,8 @@ GX_WIDGET *parent;
         }
         else
         {
-            sibling = parent -> gx_widget_first_child;
+            sibling = widget -> gx_widget_previous;
 
-            while (sibling -> gx_widget_next != widget)
-            {
-                sibling = sibling -> gx_widget_next;
-            }
             sibling -> gx_widget_next = widget -> gx_widget_next;
 
             if (parent -> gx_widget_last_child == widget)
