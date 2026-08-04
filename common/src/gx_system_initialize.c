@@ -202,6 +202,9 @@ UINT length;
         _gx_animation_create(&_gx_system_animation_pool[index]);
         _gx_system_animation_pool[index].gx_animation_next = &_gx_system_animation_pool[index + 1];
     }
+    _gx_animation_create(&_gx_system_animation_pool[index]);
+    _gx_system_animation_pool[index].gx_animation_next = GX_NULL;
+
     _gx_system_animation_free_list = _gx_system_animation_pool;
 #endif
 
