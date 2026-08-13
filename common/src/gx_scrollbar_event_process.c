@@ -157,7 +157,7 @@ GX_RECTANGLE     rect;
         {
             temp_value = scrollbar -> gx_scrollbar_info.gx_scroll_value + scrollbar -> gx_scrollbar_info.gx_scroll_increment;
         }
-        
+
         _gx_scrollbar_value_set(scrollbar, temp_value);
         break;
 
@@ -250,7 +250,8 @@ GX_RECTANGLE     rect;
             {
                 edge = (GX_VALUE)(win -> gx_widget_size.gx_rectangle_right - parent_border_width);
 
-                if (!(scrollbar -> gx_widget_style & GX_STYLE_TRANSPARENT))
+                if (!(scrollbar -> gx_widget_style & GX_STYLE_TRANSPARENT) &&
+                    !(scrollbar -> gx_widget_status & GX_STATUS_HIDDEN))
                 {
                     edge = (GX_VALUE)(win -> gx_window_client.gx_rectangle_right - scrollbar -> gx_scrollbar_appearance.gx_scroll_width);
                 }
@@ -275,7 +276,8 @@ GX_RECTANGLE     rect;
             {
                 edge = (GX_VALUE)(win -> gx_widget_size.gx_rectangle_bottom - parent_border_width);
 
-                if (!(scrollbar -> gx_widget_style & GX_STYLE_TRANSPARENT))
+                if (!(scrollbar -> gx_widget_style & GX_STYLE_TRANSPARENT) &&
+                    !(scrollbar -> gx_widget_status & GX_STATUS_HIDDEN))
                 {
                     edge = (GX_VALUE)(win -> gx_window_client.gx_rectangle_bottom - scrollbar -> gx_scrollbar_appearance.gx_scroll_width);
                 }
