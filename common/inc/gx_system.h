@@ -133,6 +133,8 @@ UINT            _gx_system_string_width_get_ext(GX_CONST GX_FONT *font, GX_CONST
 
 VOID            _gx_system_thread_entry(ULONG id);
 VOID            _gx_system_timer_expiration(ULONG val);
+UINT            _gx_system_timer_event_dispatch(GX_EVENT *event);
+GX_BOOL         _gx_system_timer_is_running(GX_WIDGET *owner, UINT timer_id);
 UINT            _gx_system_timer_start(GX_WIDGET *owner, UINT timer_id, UINT initial_ticks, UINT reschedule_ticks);
 UINT            _gx_system_timer_stop(GX_WIDGET *owner, UINT timer_id);
 VOID            _gx_system_timer_update(ULONG ticks);

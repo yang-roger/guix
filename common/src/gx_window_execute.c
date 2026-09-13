@@ -141,7 +141,7 @@ GX_WIDGET *widget;
                 }
                 else
                 {
-                    return_code = _gx_system_event_dispatch(event_ptr);
+                    return_code = _gx_system_timer_event_dispatch(event_ptr);
                 }
                 break;
 
