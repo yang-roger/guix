@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
     gx_validation_setup(argc, argv);
 
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -53,8 +53,8 @@ VOID tx_application_define(void *first_unused_memory)
 
 
 /* Replace the default graphics driver with the validation driver. */
-#ifdef win32_graphics_driver_setup_565rgb  
-#undef win32_graphics_driver_setup_565rgb  
+#ifdef win32_graphics_driver_setup_565rgb
+#undef win32_graphics_driver_setup_565rgb
 #endif
 #define win32_graphics_driver_setup_565rgb  gx_validation_graphics_driver_setup_565rgb
 
@@ -69,7 +69,7 @@ VOID tx_application_define(void *first_unused_memory)
 
 typedef struct TEXT_INFO_STRUCT{
 GX_RESOURCE_ID text_id;
-char id_name[30];
+char *id_name;
 }TEXT_INFO;
 
 TEXT_INFO text_info_list[]={
