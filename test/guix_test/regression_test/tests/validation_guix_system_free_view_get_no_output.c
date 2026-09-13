@@ -25,7 +25,7 @@ TEST_PARAM test_parameter = {
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -34,7 +34,7 @@ static VOID      control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
@@ -48,6 +48,8 @@ VOID tx_application_define(void *first_unused_memory)
 #ifdef WIN32
 #undef WIN32
 #endif
+
+#define DEMO_GUIX_ALL_WIDGETS_USE_THREAD
 
 #include "gx_validation_wrapper.h"
 #include "demo_guix_all_widgets.c"
@@ -88,8 +90,8 @@ GX_EVENT   my_event;
         {
             size.gx_rectangle_left = 10 + y + x * widget_width;
             size.gx_rectangle_right = size.gx_rectangle_left + widget_width - 10;
-            
-            gx_window_create(&window[index], "test_window", root, 0, 1024 + index, &size);      
+
+            gx_window_create(&window[index], "test_window", root, 0, 1024 + index, &size);
             index++;
         }
     }
@@ -99,6 +101,8 @@ GX_EVENT   my_event;
     my_event.gx_event_target = (GX_WIDGET *)root;
     gx_system_event_send(&my_event);
 
+    _gx_system_free_view_get();
+
     EXPECT_EQ(GX_SYSTEM_OUT_OF_VIEWS, _gx_system_last_error);
 
     if(!failed_tests)
@@ -106,7 +110,7 @@ GX_EVENT   my_event;
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);
