@@ -79,6 +79,15 @@ INT button_focus_gain_count = 0;
 /* Define radial slider anchor angle list. */
 GX_VALUE radial_slider_anchor_list[] = { 242, 214, 191, 168, 142, 112, 67, 38, 13, -10, -34, -63 };
 
+#if defined(DEMO_GUIX_ALL_WIDGETS_USE_THREAD)
+
+static VOID demo_guix_all_widgets_thread_entry(ULONG thread_input);
+
+static TX_THREAD demo_guix_all_widgets_thread;
+static ULONG demo_guix_all_widgets_thread_stack[10240];
+
+#endif
+
 /* Define screen toggle function that used for resgression tests. */
 void ToggleScreen(GX_WINDOW *new_win, GX_WINDOW *old_win)
 {
@@ -127,11 +136,23 @@ VOID tx_application_define(void *first_unused_memory)
 #if defined(DISABLE_GUIX_START)
     /* For testing need. */
 #else
+  #if defined(DEMO_GUIX_ALL_WIDGETS_USE_THREAD)
+    tx_thread_create(&demo_guix_all_widgets_thread, "Demo Thread",
+        demo_guix_all_widgets_thread_entry, 0,
+        demo_guix_all_widgets_thread_stack, sizeof(demo_guix_all_widgets_thread_stack),
+        GX_SYSTEM_THREAD_PRIORITY + 2, GX_SYSTEM_THREAD_PRIORITY + 2,
+        TX_NO_TIME_SLICE, TX_AUTO_START);
+  #else
     start_guix();
+  #endif
 #endif
 }
 
+#if defined(DEMO_GUIX_ALL_WIDGETS_USE_THREAD)
+static VOID demo_guix_all_widgets_thread_entry(ULONG)
+#else
 VOID start_guix(void)
+#endif
 {
     GX_RECTANGLE winsize;
 
@@ -141,7 +162,7 @@ VOID start_guix(void)
     /* install our memory allocator and de-allocator */
     gx_system_memory_allocator_set(rotate_memory_allocate, rotate_memory_free);
 
-    gx_studio_display_configure(PRIMARY, win32_graphics_driver_setup_24xrgb, 
+    gx_studio_display_configure(PRIMARY, win32_graphics_driver_setup_24xrgb,
                                 LANGUAGE_ENGLISH, PRIMARY_THEME_1, &root);
 
     /* create the button screen */
@@ -174,7 +195,7 @@ VOID start_guix(void)
     gx_studio_named_widget_create("radial_slider_screen", GX_NULL, GX_NULL);
 
     gx_studio_named_widget_create("rich_text_view_screen", GX_NULL, GX_NULL);
-    
+
     gx_studio_named_widget_create("focus_test_screen", GX_NULL, GX_NULL);
 
     /* Show the root window to make it and patients screen visible.  */
@@ -379,7 +400,7 @@ GX_STRING string;
         gx_prompt_create(&entry->prompt, entry->text, list, 0, GX_STYLE_ENABLED|GX_STYLE_TEXT_LEFT|GX_STYLE_BORDER_NONE|GX_STYLE_TRANSPARENT, 0, &size);
         gx_prompt_text_color_set(&entry->prompt, GX_COLOR_ID_CANVAS, GX_COLOR_ID_CANVAS, GX_COLOR_ID_CANVAS);
     }
-  
+
     string.gx_string_ptr = entry->text;
     string.gx_string_length = strnlen(entry->text, sizeof(entry->text));
     gx_prompt_text_set_ext(&entry->prompt, &string);
