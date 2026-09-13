@@ -27,6 +27,35 @@
 #include "gx_api.h"
 #include "gx_system.h"
 
+static GX_TIMER *_gx_system_timer_running_find(GX_WIDGET *owner, UINT timer_id)
+{
+    GX_TIMER* found = _gx_system_active_timer_list;
+    while (found)
+    {
+        if (found -> gx_timer_id == timer_id &&
+            found -> gx_timer_owner == owner)
+        {
+            return found;
+        }
+
+        found = found -> gx_timer_next;
+    }
+
+    return GX_NULL;
+}
+
+GX_BOOL _gx_system_timer_is_running(GX_WIDGET *owner, UINT timer_id)
+{
+    GX_TIMER* found;
+
+    GX_ENTER_CRITICAL
+
+    found = _gx_system_timer_running_find(owner, timer_id);
+
+    GX_EXIT_CRITICAL
+
+    return (found != GX_NULL) ? GX_TRUE : GX_FALSE;
+}
 
 /**************************************************************************/
 /*                                                                        */
@@ -86,21 +115,15 @@ UINT tx_timer_active;
     GX_ENTER_CRITICAL
 
     /* check for already having this timer */
-    found = _gx_system_active_timer_list;
-
-    while (found)
+    found = _gx_system_timer_running_find(owner, timer_id);
+    if (found)
     {
-        if (found -> gx_timer_id == timer_id &&
-            found -> gx_timer_owner == owner)
-        {
-            /* yes, this timer is already running */
-            /* reset the existing timer value and return */
-            found -> gx_timer_initial_ticks = initial_ticks;
-            found -> gx_timer_reschedule_ticks = reschedule_ticks;
-            GX_EXIT_CRITICAL
-            return GX_SUCCESS;
-        }
-        found = found -> gx_timer_next;
+        /* yes, this timer is already running */
+        /* reset the existing timer value and return */
+        found -> gx_timer_initial_ticks = initial_ticks;
+        found -> gx_timer_reschedule_ticks = reschedule_ticks;
+        GX_EXIT_CRITICAL
+        return GX_SUCCESS;
     }
 
     /* check for having timer available */

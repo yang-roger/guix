@@ -102,11 +102,13 @@ GX_ENTER_CRITICAL
             {
                 /* reload the timer */
                 current_timer -> gx_timer_initial_ticks = current_timer -> gx_timer_reschedule_ticks;
+                timer_event.gx_event_sender = 1; /* repeated timer */
             }
             else
             {
                 /* remove the timer */
                 _gx_system_timer_stop(current_timer -> gx_timer_owner, current_timer -> gx_timer_id);
+                timer_event.gx_event_sender = 0; /* single-shot timer */
             }
 
             if (timer_owner != GX_NULL && timer_owner -> gx_widget_event_process_function)
@@ -131,3 +133,15 @@ GX_ENTER_CRITICAL
     GX_EXIT_CRITICAL
 }
 
+UINT _gx_system_timer_event_dispatch(GX_EVENT *event)
+{
+    if (event->gx_event_sender) /* repeated timer */
+    {
+        if (!_gx_system_timer_is_running(event->gx_event_target, event->gx_event_payload.gx_event_timer_id))
+        {
+            return GX_NOT_FOUND;
+        }
+    }
+
+    return _gx_system_event_dispatch(event);
+}

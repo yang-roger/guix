@@ -153,7 +153,7 @@ GX_WIDGET *widget;
                 }
                 else
                 {
-                    _gx_system_event_dispatch(event_ptr);
+                    _gx_system_timer_event_dispatch(event_ptr);
                 }
                 break;
 
