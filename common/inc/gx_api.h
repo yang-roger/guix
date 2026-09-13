@@ -986,6 +986,10 @@ typedef struct GX_STRING_STRUCT
 #define GX_MIN(_a, _b)                      (((_a) < (_b)) ? (_a) : (_b))
 #endif
 
+#ifndef GX_MAX
+#define GX_MAX(_a, _b)                      (((_a) > (_b)) ? (_a) : (_b))
+#endif
+
 #ifndef GX_ABS
 #define GX_ABS(_a)                          (((_a) < 0) ? (-(_a)) : (_a))
 #endif
