@@ -41,7 +41,7 @@
 /*                                                                        */
 /*  DESCRIPTION                                                           */
 /*                                                                        */
-/*    8-bit palettte color format display driver rotated setup routine.   */
+/*    8-bit palette color format display driver rotated setup routine.    */
 /*                                                                        */
 /*  INPUT                                                                 */
 /*                                                                        */
@@ -70,15 +70,15 @@ VOID     _gx_display_driver_8bit_palette_rotated_setup(GX_DISPLAY *display, VOID
     _gx_display_driver_8bit_palette_setup(display, aux_data, toggle_function);
 
 #if defined(GX_MOUSE_SUPPORT)
-    display -> gx_display_mouse_capture = GX_NULL;
-    display -> gx_display_mouse_restore = GX_NULL;
-    display -> gx_display_mouse_capture = GX_NULL;
-    display -> gx_display_mouse_restore = GX_NULL;
-    display -> gx_display_mouse_draw = GX_NULL;
     display -> gx_display_driver_drawing_initiate = GX_NULL;
     display -> gx_display_driver_drawing_complete = GX_NULL;
     display -> gx_display_mouse_position_set = GX_NULL;
     display -> gx_display_mouse_enable = GX_NULL;
+#if !defined(GX_HARDWARE_MOUSE_SUPPORT)
+    display->gx_display_mouse_capture = GX_NULL;
+    display->gx_display_mouse_restore = GX_NULL;
+    display->gx_display_mouse_draw = GX_NULL;
+#endif
 #endif
 
     display -> gx_display_rotation_angle                       = GX_SCREEN_ROTATION_CW;
