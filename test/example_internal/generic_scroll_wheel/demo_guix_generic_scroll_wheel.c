@@ -72,8 +72,8 @@ VOID memory_free(VOID* mem)
 VOID tx_application_define(void *first_unused_memory)
 {
     /* Create the main demo thread.  */
-    tx_thread_create(&demo_thread, "GUIX Demo Thread", demo_thread_entry, 
-                     0,  demo_thread_stack, sizeof(demo_thread_stack), 
+    tx_thread_create(&demo_thread, "GUIX Demo Thread", demo_thread_entry,
+                     0,  demo_thread_stack, sizeof(demo_thread_stack),
                      1, 1, TX_NO_TIME_SLICE, TX_AUTO_START);
 }
 
@@ -87,7 +87,7 @@ VOID  demo_thread_entry(ULONG thread_input)
 
     gx_system_memory_allocator_set(memory_allocate, memory_free);
 
-    gx_studio_display_configure(DISPLAY_1, win32_graphics_driver_setup_565rgb, 
+    gx_studio_display_configure(DISPLAY_1, win32_graphics_driver_setup_565rgb,
                                 LANGUAGE_ENGLISH, DISPLAY_1_THEME_1, &root);
 
     /* create the button screen */
@@ -162,7 +162,7 @@ void widget_scroll_callback(GX_GENERIC_SCROLL_WHEEL* wheel, GX_WIDGET* widget, I
     GX_BOOL created;
     GX_RECTANGLE size;
     SCROLL_WHEEL_ROW* row = (SCROLL_WHEEL_ROW*)widget;
-    int width;
+    GX_VALUE width;
 
     gx_widget_created_test(widget, &created);
 
@@ -194,8 +194,8 @@ void widget_scroll_wheel_init()
 
     while (index <= SCROLL_WHEEL_VISIBLE_ROWS)
     {
-        widget_scroll_callback(nowrap_wheel, &scroll_wheel_nowrap_rows[index], index);
-        widget_scroll_callback(wrap_wheel, &scroll_wheel_wrap_rows[index], index);
+        widget_scroll_callback(nowrap_wheel, (GX_WIDGET*)&scroll_wheel_nowrap_rows[index], index);
+        widget_scroll_callback(wrap_wheel, (GX_WIDGET*)&scroll_wheel_wrap_rows[index], index);
 
         index++;
     }

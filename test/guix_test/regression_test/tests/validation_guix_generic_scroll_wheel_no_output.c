@@ -25,7 +25,7 @@ TEST_PARAM test_parameter = {
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -34,7 +34,7 @@ static VOID      control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
@@ -90,7 +90,7 @@ GX_GENERIC_SCROLL_WHEEL *wheel_wrap = &main_screen.main_screen_scroll_wheel_wrap
     memset(&parent, 0, sizeof(GX_WINDOW));
 
     /* Invalid parent widget.  */
-    status = gx_generic_scroll_wheel_create(&wheel, "", &parent, 10, GX_NULL, 0, 0, &size);
+    status = gx_generic_scroll_wheel_create(&wheel, "", (GX_WIDGET *)&parent, 10, GX_NULL, 0, 0, &size);
     EXPECT_EQ(status, GX_INVALID_WIDGET);
 
     /* Invalid control block size.  */
@@ -128,7 +128,7 @@ GX_GENERIC_SCROLL_WHEEL *wheel_wrap = &main_screen.main_screen_scroll_wheel_wrap
 
     status = gx_generic_scroll_wheel_children_position(GX_NULL);
     EXPECT_EQ(status, GX_PTR_ERROR);
-    
+
     status = gx_generic_scroll_wheel_total_rows_set(wheel_wrap, 0);
     EXPECT_EQ(status, GX_SUCCESS);
 
@@ -136,12 +136,12 @@ GX_GENERIC_SCROLL_WHEEL *wheel_wrap = &main_screen.main_screen_scroll_wheel_wrap
     _gx_generic_scroll_wheel_scroll(wheel_wrap, 10);
     _gx_generic_scroll_wheel_scroll(wheel_wrap, -10);
 
-    if(failed_tests == 0) 
+    if(failed_tests == 0)
     {
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);

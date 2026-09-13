@@ -118,12 +118,12 @@ static unsigned int gx_validation_calc_crc(unsigned char *data, int len)
     result |= *data++;
     result = ~ result;
     len -=4;
-    
+
     for (i=0; i<len; i++)
     {
         result = (result << 8 | *data++) ^ crc_table[result >> 24];
     }
-    
+
     return ~result;
 }
 
@@ -142,8 +142,8 @@ void gx_validation_setup(int argc, char **argv)
     memset(golden_file_name, 0, sizeof(golden_file_name));
     memset(output_file_path, 0, sizeof(output_file_path));
     memset(output_file_name, 0, sizeof(output_file_name));
-    
-    
+
+
     /* Set the default golden file path and output file path */
     memcpy(golden_file_path, DEFAULT_GOLDEN_FILE_PATH, sizeof(DEFAULT_GOLDEN_FILE_PATH));
     memcpy(output_file_path, DEFAULT_OUTPUT_FILE_PATH, sizeof(DEFAULT_OUTPUT_FILE_PATH));
@@ -196,11 +196,11 @@ void gx_validation_setup(int argc, char **argv)
 
     sprintf(golden_checksum_file_string, "%s%s.checksum", golden_file_path, test_parameter.test_name);
     sprintf(output_checksum_file_string, "%s%s.checksum", output_file_path, test_parameter.test_name);
-    
+
     strncpy(golden_file_string, golden_file_path, sizeof(golden_file_string));
-    strncat(golden_file_string, golden_file_name, sizeof(golden_file_string));
+    strncat(golden_file_string, golden_file_name, sizeof(golden_file_string) - 1);
     strncpy(output_file_string, output_file_path, sizeof(output_file_string));
-    strncat(output_file_string, output_file_name, sizeof(output_file_string));
+    strncat(output_file_string, output_file_name, sizeof(output_file_string) - 1);
 
     if(generate || checksum)
     {
@@ -217,7 +217,7 @@ void gx_validation_setup(int argc, char **argv)
         {
             gx_validation_verify_start(test_parameter.test_name, golden_file_string, checksum);
         }
-        
+
     }
 
 #if defined(__linux) && defined(RUNTIME_LIMITATION)
@@ -381,7 +381,7 @@ TX_INTERRUPT_SAVE_AREA
                     gx_validation_write_one_frame(output_failures_file);
                 }
             }
-           
+
             total_failures++;
         }
     }
@@ -396,9 +396,9 @@ TX_INTERRUPT_SAVE_AREA
        (gx_validation_frame_capture_current != gx_validation_frame_capture_max_frame))
     {
         gx_validation_frame_id ++;
-        
+
         gx_validation_frame_capture_current++;
-            
+
         if(gx_validation_frame_capture_current < gx_validation_frame_capture_comments_max)
         {
             gx_validation_frame_comment = gx_validation_frame_capture_comments[gx_validation_frame_capture_current];
@@ -449,7 +449,7 @@ void gx_validation_close_output_file(void)
     if(output_failures_file)
     {
        fseek(output_failures_file, 0, SEEK_SET);
-        
+
        /* skip the first line, which is the file format info */
        fprintf(output_failures_file, TOTAL_FRAMES"%d\n", total_failures);
        fclose(output_failures_file);
@@ -544,7 +544,7 @@ void gx_validation_current_frame_id_get(int *current_frame)
 void gx_validation_screen_refresh(void)
 {
 GX_EVENT my_event;
-   
+
     memset(&my_event, 0, sizeof(GX_EVENT));
     my_event.gx_event_type = GX_EVENT_REDRAW;
     gx_system_event_send(&my_event);
@@ -577,14 +577,14 @@ TX_INTERRUPT_SAVE_AREA
 void gx_validation_control_thread_create(VOID (*func)(ULONG))
 {
     tx_thread_create(&control_thread, "GUIX Validation Control Thread", func,
-                     0, control_thread_stack, sizeof(control_thread_stack), 
+                     0, control_thread_stack, sizeof(control_thread_stack),
                      CONTROL_THREAD_PRIORITY, CONTROL_THREAD_PRIORITY,
                      TX_NO_TIME_SLICE, TX_AUTO_START);
 
     if(!gx_validation_no_output)
     {
         tx_thread_create(&timer_control_thread, "GUIX Validation Timer Control Thread", timer_control_thread_entry,
-                         0, timer_control_thread_stack, sizeof(timer_control_thread_stack), 
+                         0, timer_control_thread_stack, sizeof(timer_control_thread_stack),
                          CONTROL_THREAD_PRIORITY, CONTROL_THREAD_PRIORITY,
                          TX_NO_TIME_SLICE, TX_AUTO_START);
     }
@@ -603,7 +603,7 @@ int i;
         for(i = 0; i < size; i++)
         {
             fprintf(output_file, "%lu ", palette[i]);
-        }            
+        }
         fprintf(output_file, "\n");
         GX_EXIT_CRITICAL
     }

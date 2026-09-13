@@ -137,7 +137,7 @@ VOID start_guix(void)
     /* install our memory allocator and de-allocator */
     gx_system_memory_allocator_set(rotate_memory_allocate, rotate_memory_free);
 
-    gx_studio_display_configure(PRIMARY, win32_graphics_driver_setup_24xrgb, 
+    gx_studio_display_configure(PRIMARY, win32_graphics_driver_setup_24xrgb,
                                 LANGUAGE_ENGLISH, PRIMARY_THEME_1, &root);
 
     /* create the button screen */
@@ -276,7 +276,7 @@ void slider_value_update(GX_EVENT *event_ptr)
     pos = event_ptr->gx_event_payload.gx_event_longdata;
     gx_progress_bar_value_set(&Slider_Screen.Slider_Screen_Progress_Bar, pos);
     gx_utility_ltoa(pos, (GX_CHAR *)string.gx_string_ptr, MAX_SLIDER_VAL_TEXT_LENGTH);
-    strncat((GX_CHAR *)string.gx_string_ptr, "%", 1);
+    strncat((GX_CHAR *)string.gx_string_ptr, "%", MAX_SLIDER_VAL_TEXT_LENGTH - 1);
     string.gx_string_length = string_length_get(string.gx_string_ptr, MAX_SLIDER_VAL_TEXT_LENGTH);
     gx_prompt_text_set_ext(&Slider_Screen.Slider_Screen_Progress_Bar_Prompt, &string);
 }
@@ -338,7 +338,7 @@ VOID reset_sliders(GX_WINDOW *parent)
     }
 
     slider_index = 0;
-    widget = parent->gx_widget_first_child; 
+    widget = parent->gx_widget_first_child;
 
     while(widget)
     {
@@ -591,7 +591,7 @@ VOID custom_transparent_prompt_thick_border_draw(GX_PROMPT *prompt)
     gx_prompt_draw(prompt);
 
     gx_context_pixelmap_get(GX_PIXELMAP_ID_PROMPT_BORDER_HEAVY, &map);
-    
+
     gx_canvas_pixelmap_draw(prompt->gx_widget_size.gx_rectangle_left,
         prompt->gx_widget_size.gx_rectangle_top,
         map);
@@ -643,7 +643,7 @@ GX_PIXELMAP *map;
     gx_context_pixelmap_get(GX_PIXELMAP_ID_LR_CORNER, &map);
     gx_canvas_pixelmap_draw(frame->gx_widget_size.gx_rectangle_right - map->gx_pixelmap_width + 1,
                             frame->gx_widget_size.gx_rectangle_bottom - map->gx_pixelmap_height + 1, map);
-        
+
 }
 
 /*****************************************************************************/
@@ -685,7 +685,7 @@ VOID numeric_pixelmap_prompt_format_func(GX_NUMERIC_PIXELMAP_PROMPT *prompt, INT
 {
     int length;
     gx_utility_ltoa(value / 100, prompt->gx_numeric_pixelmap_prompt_buffer, GX_NUMERIC_PROMPT_BUFFER_SIZE);
-    
+
     length = string_length_get(prompt->gx_numeric_pixelmap_prompt_buffer, GX_NUMERIC_PROMPT_BUFFER_SIZE);
     prompt->gx_numeric_pixelmap_prompt_buffer[length++] = '.';
     gx_utility_ltoa(value % 100, prompt->gx_numeric_pixelmap_prompt_buffer + length, GX_NUMERIC_PROMPT_BUFFER_SIZE - length);

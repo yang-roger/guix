@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
     gx_validation_setup(argc, argv);
 
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -80,7 +80,7 @@ GX_CHAR  *comments;
 
 TEST test_list[]={
 {GX_EVENT_PEN_DOWN, XPOS, YPOS,  5, "pen down"},/* Drag down. */
-{GX_EVENT_PEN_DRAG, XPOS, YPOS + 50, 11, "pen drag"}, 
+{GX_EVENT_PEN_DRAG, XPOS, YPOS + 50, 11, "pen drag"},
 {GX_EVENT_PEN_UP,   XPOS, YPOS + 50,  5, "pen up"},
 {GX_EVENT_PEN_DOWN, XPOS, YPOS,  5, "pen down"},/* Drag up, less than half window height. */
 {GX_EVENT_PEN_DRAG, XPOS, YPOS - 50, 11, "pen drag"},
@@ -121,16 +121,16 @@ INT          style_index;
 
     memset(v_screen_drag_semaphore, 0, sizeof(TX_SEMAPHORE));
     memset(&my_event, 0, sizeof(GX_EVENT));
-  
-    my_event.gx_event_display_handle = 1; 
+
+    my_event.gx_event_display_handle = 1;
     tx_semaphore_create(v_screen_drag_semaphore, "", 0);
 
     for(style_index = 0; style_index < 2; style_index++)
     {
         if(style_index)
         {
-            gx_animation_drag_disable(&v_screen_drag_animation, &main_screen.main_screen_v_menu_window);
-            enable_screen_drag_animation(&v_screen_drag_animation, v_screen_list, &main_screen.main_screen_v_menu_window,
+            gx_animation_drag_disable(&v_screen_drag_animation, (GX_WIDGET *)&main_screen.main_screen_v_menu_window);
+            enable_screen_drag_animation(&v_screen_drag_animation, v_screen_list, (GX_WIDGET *)&main_screen.main_screen_v_menu_window,
                                          GX_ANIMATION_SCREEN_DRAG | GX_ANIMATION_VERTICAL | GX_ANIMATION_BLOCK_MOVE,
                                          ANIMATION_ID_V_SCREEN_DRAG);
         }
@@ -156,7 +156,7 @@ INT          style_index;
             {
                 tx_semaphore_get(v_screen_drag_semaphore, TX_WAIT_FOREVER);
             }
-        
+
             test++;
         }
     }

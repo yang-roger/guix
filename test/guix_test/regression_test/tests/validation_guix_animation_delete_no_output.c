@@ -24,7 +24,7 @@ TEST_PARAM test_parameter = {
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -33,7 +33,7 @@ static VOID      control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
@@ -83,8 +83,8 @@ GX_ANIMATION_INFO info;
     EXPECT_EQ(status, GX_SUCCESS);
 
     memset(&info, 0, sizeof(GX_ANIMATION_INFO));
-    info.gx_animation_parent = &button_screen;
-    info.gx_animation_target = &button_screen.button_screen_title_1;
+    info.gx_animation_parent = (GX_WIDGET *)&button_screen;
+    info.gx_animation_target = (GX_WIDGET *)&button_screen.button_screen_title_1;
     info.gx_animation_start_alpha = 255;
     info.gx_animation_end_alpha = 255;
     info.gx_animation_start_position.gx_point_x = button_screen.gx_widget_size.gx_rectangle_left;
@@ -99,8 +99,8 @@ GX_ANIMATION_INFO info;
     status = gx_system_animation_get(&animation2);
     EXPECT_EQ(status, GX_SUCCESS);
 
-    info.gx_animation_target = &button_screen.button_screen_icon_button_6;
-    info.gx_animation_parent = &button_screen.button_screen_text_button_1;
+    info.gx_animation_target = (GX_WIDGET *)&button_screen.button_screen_icon_button_6;
+    info.gx_animation_parent = (GX_WIDGET *)&button_screen.button_screen_text_button_1;
     status = gx_animation_start(animation2, &info);
     EXPECT_EQ(status, GX_SUCCESS);
 
@@ -110,13 +110,13 @@ GX_ANIMATION_INFO info;
     EXPECT_EQ(status, GX_SUCCESS);
 
     EXPECT_EQ(animation->gx_animation_status, 0);
-    
-    if(failed_tests == 0) 
+
+    if(failed_tests == 0)
     {
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);

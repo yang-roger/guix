@@ -46,7 +46,7 @@ The GUIX regression test is built on top of the CMake build system and organize 
 - In the generation mode, after each test point, a specified area of the GUIX canvas is saved to a binary file named `<test_name>.bin`.
 - A checksum value, calculated based on the canvas data, is saved to a file named `<test_name>.checksum`.
 - The binary file is used for checking the correctness of the test case visually.
-- The checksum file enables faster verification during tests by comparing expected and actual checksum values. 
+- The checksum file enables faster verification during tests by comparing expected and actual checksum values.
 
 2. **Test case without output:**
 - In this type of test code, the test code typically checks the API return status or the values of a variable to verify the correctness of the test case.
@@ -62,13 +62,13 @@ The GUIX regression test is built on top of the CMake build system and organize 
 2. To build and run all the tests, use the following commands.
 ```bash
 ./run.sh build all
-./run.sh run all
+./run.sh test all
 ```
 
 3. To build and run a specific test suite, use the following commands.
 ```bash
 ./run.sh build <build_type>
-./run.sh run <build_type>
+./run.sh test <build_type>
 ```
 
 The available build types are as follows:
@@ -168,7 +168,7 @@ TEST_PARAM test_parameter = {
 
 Definition of the TEST_PARAM structure:
 ```c
-typedef struct TEST_PARAM_S 
+typedef struct TEST_PARAM_S
 {
 
     char *test_name;          /* Must be set */
@@ -176,8 +176,8 @@ typedef struct TEST_PARAM_S
 
     /* The following parameters defines the screen area to capture.
        If 0, capture the whole screen. */
-       
-    int x_start;   
+
+    int x_start;
     int y_start;
     int x_end;
     int y_end;
@@ -189,7 +189,7 @@ typedef struct TEST_PARAM_S
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 ```
@@ -201,13 +201,13 @@ static VOID control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
 
     /* Create a dedicated thread to perform various operations
-       on the line drawing example. These operations simulate 
+       on the line drawing example. These operations simulate
        user input. */
     gx_validation_control_thread_create(control_thread_entry);
 }
@@ -234,17 +234,17 @@ UINT              status;
 GX_PROMPT        *prompt = &button_screen.button_screen_title_1;
 GX_CONST GX_CHAR *text;
 
-    gx_widget_hide(&button_screen); 
+    gx_widget_hide(&button_screen);
 
     status = gx_prompt_text_get(prompt, &text);
     EXPECT_EQ(GX_INVALID_CANVAS, status);
 
-    if(failed_tests == 0) 
+    if(failed_tests == 0)
     {
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);
@@ -321,7 +321,7 @@ set(<example_name>_REG_TESTS
 ```
 
 5. Generate Golden Files:
-- Build GUIX regression test with the appropriate build type based on the demo build configuration settings. 
+- Build GUIX regression test with the appropriate build type based on the demo build configuration settings.
 
 - Generate golden files for the test case. If the test has no output, this step can be skipped.
     - Navigate to the `test\guix_test\cmake\build\<build_type>\regression` directory, where the test executables are generated.
@@ -503,7 +503,7 @@ import test_constants
 
 3. Define test header for the test information.
 ```python
-def get_test_header(): 
+def get_test_header():
     notes =  "*             <Test Name>                             *\n"
     notes += "*                                                     *\n"
     ...

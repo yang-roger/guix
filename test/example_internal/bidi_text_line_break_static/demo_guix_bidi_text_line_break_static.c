@@ -46,8 +46,8 @@ int main(int argc, char ** argv)
 VOID tx_application_define(void *first_unused_memory)
 {
     /* Create the main demo thread.  */
-    tx_thread_create(&demo_thread, "GUIX Demo Thread", demo_thread_entry, 
-                     0,  demo_thread_stack, sizeof(demo_thread_stack), 
+    tx_thread_create(&demo_thread, "GUIX Demo Thread", demo_thread_entry,
+                     0,  demo_thread_stack, sizeof(demo_thread_stack),
                      1, 1, TX_NO_TIME_SLICE, TX_AUTO_START);
 }
 
@@ -107,7 +107,7 @@ static int extract_path(char* pathname, char* path)
     return len;
 }
 
-static VOID load_theme_2()
+static UINT load_theme_2()
 {
     UINT  status = GX_SUCCESS;
     UCHAR* address = GX_NULL;
@@ -165,7 +165,7 @@ VOID  demo_thread_entry(ULONG thread_input)
     /* Set memory alloc/free functions. */
     gx_system_memory_allocator_set(memory_allocate, memory_free);
 
-    gx_studio_display_configure(DISPLAY_1, win32_graphics_driver_setup_24xrgb, 
+    gx_studio_display_configure(DISPLAY_1, win32_graphics_driver_setup_24xrgb,
                                 0, 0, &root);
 
     /* create the main screen */

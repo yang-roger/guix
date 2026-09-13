@@ -81,6 +81,7 @@ add_compile_options(
   -g3
   -gdwarf-2
   -fdiagnostics-color
+  -D_POSIX_C_SOURCE=200809L
   -DWQVGA_272_SCREEN
   -DCOLOR_DEPTH_16BPP
   -DGX_CURSOR_BLINK_INTERVAL=1

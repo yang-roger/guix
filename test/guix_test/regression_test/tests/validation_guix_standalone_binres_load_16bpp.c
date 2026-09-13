@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
     gx_validation_setup(argc, argv);
 
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -87,25 +87,25 @@ void ToggleScreen(GX_WINDOW *new_win, GX_WINDOW *old_win)
 static VOID control_thread_entry(ULONG input)
 {
 int frame_id = 1;
-int failed_tests = 0; 
+int failed_tests = 0;
 UINT status;
-UINT buffer_size;
+ULONG buffer_size;
 
     gx_validation_set_frame_id(frame_id++);
     gx_validation_set_frame_comment("565rgb screen");
     gx_validation_screen_refresh();
 
-    ToggleScreen(&screen_4444argb, &main_screen);
+    ToggleScreen((GX_WINDOW *)&screen_4444argb, (GX_WINDOW *)&main_screen);
     gx_validation_set_frame_id(frame_id++);
     gx_validation_set_frame_comment("444argb screen");
     gx_validation_screen_refresh();
 
-    ToggleScreen(&screen_8bit_palette, &screen_4444argb);
+    ToggleScreen((GX_WINDOW *)&screen_8bit_palette, (GX_WINDOW *)&screen_4444argb);
     gx_validation_set_frame_id(frame_id++);
     gx_validation_set_frame_comment("8bit palette screen");
     gx_validation_screen_refresh();
 
-    ToggleScreen(&screen_alphamap, &screen_8bit_palette);
+    ToggleScreen((GX_WINDOW *)&screen_alphamap, (GX_WINDOW *)&screen_8bit_palette);
     gx_validation_set_frame_id(frame_id++);
     gx_validation_set_frame_comment("alphamap screen");
     gx_validation_screen_refresh();

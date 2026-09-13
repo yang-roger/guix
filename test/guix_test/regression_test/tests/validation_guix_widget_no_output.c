@@ -26,7 +26,7 @@ TEST_PARAM test_parameter = {
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -35,7 +35,7 @@ static VOID      control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
@@ -92,7 +92,7 @@ GX_EVENT   my_event;
         {
             gx_widget_style_add(widget, GX_STYLE_ENABLED);
         }
-    
+
         gx_widget_style_remove(widget, GX_STYLE_BUTTON_REPEAT);
         my_event.gx_event_target = widget;
         my_event.gx_event_type = GX_EVENT_KEY_DOWN;
@@ -220,10 +220,10 @@ GX_EVENT   my_event;
     EXPECT_EQ(GX_SUCCESS, status);
 
     gx_widget_detach(&window_screen.window_screen_window_4);
-    widget = _gx_widget_first_visible_client_child_get(&window_screen.window_screen_scroll_frame_1);
+    widget = _gx_widget_first_visible_client_child_get((GX_WIDGET *)&window_screen.window_screen_scroll_frame_1);
     EXPECT_EQ(widget, GX_NULL);
 
-    widget = _gx_widget_last_visible_client_child_get(&window_screen.window_screen_scroll_frame_1);
+    widget = _gx_widget_last_visible_client_child_get((GX_WIDGET *)&window_screen.window_screen_scroll_frame_1);
     EXPECT_EQ(widget, GX_NULL);
 
     widget = window_screen.window_screen_scroll_frame_1.gx_widget_first_child;
@@ -235,7 +235,7 @@ GX_EVENT   my_event;
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);

@@ -24,7 +24,7 @@ TEST_PARAM test_parameter = {
 int main(int argc, char ** argv)
 {
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -33,7 +33,7 @@ static VOID      control_thread_entry(ULONG);
 VOID tx_application_define(void *first_unused_memory)
 {
     gx_validation_application_define(first_unused_memory);
-    
+
     /* Termiante the test if it runs for more than 100 ticks */
     /* This function is not implemented yet. */
     gx_validation_watchdog_create(100);
@@ -71,7 +71,7 @@ GX_CHAR string_buffer[] = "test string";
 
     string.gx_string_ptr = string_buffer;
     string.gx_string_length = sizeof(string_buffer) - 1;
-    status = gx_multi_line_text_view_text_set(&text_view, &string);
+    status = gx_multi_line_text_view_text_set(&text_view, (GX_CONST GX_CHAR *)&string);
     EXPECT_EQ(GX_SUCCESS, status);
 
     gx_system_memory_allocator_set(GX_NULL, GX_NULL);
@@ -80,12 +80,12 @@ GX_CHAR string_buffer[] = "test string";
     status = gx_multi_line_text_view_event_process(&text_view, &my_event);
     EXPECT_EQ(GX_SYSTEM_MEMORY_ERROR, status);
 
-    if(failed_tests == 0) 
+    if(failed_tests == 0)
     {
         gx_validation_print_test_result(TEST_SUCCESS);
         exit(0);
     }
-    else 
+    else
     {
         gx_validation_print_test_result(TEST_FAIL);
         exit(1);

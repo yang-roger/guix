@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
     gx_validation_setup(argc, argv);
 
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -81,7 +81,7 @@ GX_CHAR  *comments;
 
 TEST test_list[]={
 {GX_EVENT_PEN_DOWN, XPOS,       YPOS,  5, "pen down"},/* Drag right. */
-{GX_EVENT_PEN_DRAG, XPOS + 50,  YPOS, 11, "drag right by 50"}, 
+{GX_EVENT_PEN_DRAG, XPOS + 50,  YPOS, 11, "drag right by 50"},
 {GX_EVENT_PEN_UP,   XPOS + 50,  YPOS,  5, "pen up"},
 {GX_EVENT_PEN_DOWN, XPOS,       YPOS,  5, "pen down"},
 {GX_EVENT_PEN_DRAG, XPOS +  3,  YPOS, 11, "drag right by 3"},
@@ -128,14 +128,14 @@ INT          style_index;
     tx_semaphore_create(h_screen_drag_semaphore, "", 0);
 
     memset(&my_event, 0, sizeof(GX_EVENT));
-    my_event.gx_event_display_handle = 1; 
+    my_event.gx_event_display_handle = 1;
 
     for(style_index = 0; style_index < 2; style_index++)
     {
         if(style_index)
         {
-            gx_animation_drag_disable(&h_screen_drag_animation, &main_screen.main_screen_h_menu_window);
-            enable_screen_drag_animation(&h_screen_drag_animation, h_screen_list, &main_screen.main_screen_h_menu_window,
+            gx_animation_drag_disable(&h_screen_drag_animation, (GX_WIDGET *)&main_screen.main_screen_h_menu_window);
+            enable_screen_drag_animation(&h_screen_drag_animation, h_screen_list, (GX_WIDGET *)&main_screen.main_screen_h_menu_window,
                                          GX_ANIMATION_SCREEN_DRAG | GX_ANIMATION_HORIZONTAL,
                                          ANIMATION_ID_H_SCREEN_DRAG);
         }
@@ -161,7 +161,7 @@ INT          style_index;
             {
                 tx_semaphore_get(h_screen_drag_semaphore, TX_WAIT_FOREVER);
             }
-        
+
             test++;
         }
     }
