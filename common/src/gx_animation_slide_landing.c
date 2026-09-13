@@ -120,30 +120,33 @@ GX_VALUE           border_width;
 
     if (info -> gx_animation_style & GX_ANIMATION_EASING_FUNC_MASK)
     {
-        info -> gx_animation_steps = (GX_UBYTE)(info -> gx_animation_steps - 1);
-
-        switch (animation -> gx_animation_slide_direction)
+        if (info -> gx_animation_steps > 0)
         {
-        case GX_ANIMATION_SLIDE_LEFT:
-        case GX_ANIMATION_SLIDE_RIGHT:
-            _gx_utility_easing_function_calculate(info -> gx_animation_style,
-                                                  info -> gx_animation_start_position.gx_point_x,
-                                                  parent -> gx_widget_size.gx_rectangle_left,
-                                                  animation -> gx_animation_total_steps - info -> gx_animation_steps,
-                                                  animation -> gx_animation_total_steps, &x_shift);
+            info -> gx_animation_steps = (GX_UBYTE)(info -> gx_animation_steps - 1);
 
-            x_shift -= target_size.gx_rectangle_left;
-            break;
+            switch (animation -> gx_animation_slide_direction)
+            {
+            case GX_ANIMATION_SLIDE_LEFT:
+            case GX_ANIMATION_SLIDE_RIGHT:
+                _gx_utility_easing_function_calculate(info -> gx_animation_style,
+                                                      info -> gx_animation_start_position.gx_point_x,
+                                                      parent -> gx_widget_size.gx_rectangle_left,
+                                                      animation -> gx_animation_total_steps - info -> gx_animation_steps,
+                                                      animation -> gx_animation_total_steps, &x_shift);
 
-        default:
-            _gx_utility_easing_function_calculate(info -> gx_animation_style,
-                                                  info -> gx_animation_start_position.gx_point_y,
-                                                  parent -> gx_widget_size.gx_rectangle_top,
-                                                  animation -> gx_animation_total_steps - info -> gx_animation_steps,
-                                                  animation -> gx_animation_total_steps, &y_shift);
+                x_shift -= target_size.gx_rectangle_left;
+                break;
 
-            y_shift -= target_size.gx_rectangle_top;
-            break;
+            default:
+                _gx_utility_easing_function_calculate(info -> gx_animation_style,
+                                                      info -> gx_animation_start_position.gx_point_y,
+                                                      parent -> gx_widget_size.gx_rectangle_top,
+                                                      animation -> gx_animation_total_steps - info -> gx_animation_steps,
+                                                      animation -> gx_animation_total_steps, &y_shift);
+
+                y_shift -= target_size.gx_rectangle_top;
+                break;
+            }
         }
     }
     else
