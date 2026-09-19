@@ -28,6 +28,41 @@
 #include "gx_system.h"
 #include "gx_window.h"
 
+#ifndef GX_DISABLE_ERROR_CHECKING
+
+static int _gx_system_root_window_count_get(void)
+{
+int count;
+GX_WINDOW_ROOT *root;
+
+    count = 0;
+    root = _gx_system_root_window_created_list;
+    while (root)
+    {
+        ++count;
+        root = (GX_WINDOW_ROOT *)root -> gx_widget_next;
+    }
+
+    return count;
+}
+
+static int _gx_system_free_views_count_get(void)
+{
+int count;
+GX_VIEW *view;
+
+    count = 0;
+    view = _gx_system_free_views;
+    while (view)
+    {
+        ++count;
+        view = view -> gx_view_next;
+    }
+
+    return count;
+}
+
+#endif /* GX_DISABLE_ERROR_CHECKING */
 
 /**************************************************************************/
 /*                                                                        */
@@ -66,8 +101,7 @@
 VOID _gx_system_all_views_free(GX_WINDOW_ROOT *root)
 {
 #ifndef GX_DISABLE_ERROR_CHECKING
-int viewcount;
-GX_VIEW   *test;
+int count;
 #endif
 
 GX_WIDGET *child;
@@ -89,19 +123,14 @@ GX_WIDGET *child;
     _gx_window_view_free((GX_WINDOW *)root);
 
 #ifndef GX_DISABLE_ERROR_CHECKING
-    test = _gx_system_free_views;
-
-    viewcount = 0;
-
-    while (test)
+    count = _gx_system_root_window_count_get();
+    if (count < 2)
     {
-        viewcount++;
-        test = test -> gx_view_next;
-    }
-
-    if (viewcount != GX_MAX_VIEWS)
-    {
-        _gx_system_error_process(GX_SYSTEM_OUT_OF_VIEWS);
+        count = _gx_system_free_views_count_get();
+        if (count != GX_MAX_VIEWS)
+        {
+            _gx_system_error_process(GX_SYSTEM_OUT_OF_VIEWS);
+        }
     }
 #endif
 }
