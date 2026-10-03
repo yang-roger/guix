@@ -34,7 +34,7 @@ int main(int argc, char ** argv)
     gx_validation_setup(argc, argv);
 
     /* Start ThreadX system */
-    tx_kernel_enter(); 
+    tx_kernel_enter();
     return(0);
 }
 
@@ -106,7 +106,7 @@ GX_PIXELMAP *map;
 static VOID control_thread_entry(ULONG input)
 {
 INT frame_id = 1;
-INT index;
+INT index = 0;
 GX_WINDOW *jpeg_win = &image_convert_screen.image_convert_screen_jpeg_to_1555xrgb_win;
 
     /* Toggle to image convert screen. */
@@ -118,13 +118,13 @@ GX_WINDOW *jpeg_win = &image_convert_screen.image_convert_screen_jpeg_to_1555xrg
     while(test_map_info_list[index].map_id != GX_NULL)
     {
         gx_validation_set_frame_id(frame_id++);
-    
+
         /* Set the wallpaper of the window.  */
         gx_window_wallpaper_set(jpeg_win, test_map_info_list[index].map_id, test_map_info_list[index].map_id);
 
         /* Set test comment.  */
         gx_validation_set_frame_comment(test_map_info_list[index].id_name);
-        
+
         /* Force a screen refresh. */
         gx_validation_screen_refresh();
 
